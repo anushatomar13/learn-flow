@@ -1,16 +1,43 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { HoverEffect } from "@/components/ui/card-hover-effect";
 import { ThumbsUp, ThumbsDown } from "lucide-react";
 
-function CareerDetails() {
-  const [feedback, setFeedback] = useState<string | null>(null);
+interface CareerDetailsProps {
+  designation: string;
+}
 
+function CareerDetails({ designation }: CareerDetailsProps) {
+  const [feedback, setFeedback] = useState<string | null>(null);
+  const [careerDescription, setCareerDescription] = useState<string>("Fetching career details...");
+
+  useEffect(() => {
+    const fetchCareerDescription = async () => {
+      try {
+        const response = await fetch("/api/getCareerDescription", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ career: designation }), 
+        });
+
+        const data = await response.json();
+        if (data.description) {
+          setCareerDescription(data.description);
+        } else {
+          setCareerDescription("Could not fetch career details.");
+        }
+      } catch (error) {
+        setCareerDescription("Error fetching career details.");
+      }
+    };
+
+    if (designation) fetchCareerDescription();
+  }, [designation]); 
   const careerDetails = [
     {
-      title: "Understanding Music Theory",
-      description: "Dive deep into the fundamentals of music theory and enhance your musical skills.",
-      slug: "understanding-music-theory",
+      title: `Career as a ${designation}`,
+      description: careerDescription,
+      slug: designation.toLowerCase().replace(/\s+/g, "-"),
     },
     {
       title: "The Art of Songwriting",
@@ -29,7 +56,7 @@ function CareerDetails() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="text-center">
           <p className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl">
-            Enhance Your Musical Journey
+            Explore Your Career Path
           </p>
         </div>
 

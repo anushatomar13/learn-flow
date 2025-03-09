@@ -16,7 +16,13 @@ export async function POST(req: NextRequest) {
       },
       body: JSON.stringify({
         model: "llama3-8b-8192",
-        messages: [{ role: "user", content: `Give a short description of a ${career}.` }],
+        messages: [
+          { 
+            role: "user", 
+            content: `Describe ${career} in exactly four lines as if advising someone who wants to pursue it as a career. Include how this career contributes to society. Do not use phrases like "Here's your description"—just provide the response directly. Write in the second-person perspective ("you").`
+          }
+          
+        ],
       }),
     });
 

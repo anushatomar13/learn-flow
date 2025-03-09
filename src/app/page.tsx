@@ -7,9 +7,12 @@ import Footer from "./components/Footer";
 export default function Home() {
   const [showDetails, setShowDetails] = useState(false);
   const detailsRef = useRef<HTMLDivElement>(null);
+  const [selectedCareer, setSelectedCareer] = useState<string | null>(null);
 
-  const handleExploreClick = () => {
+  const handleExploreClick = (designation: string) => {
+    setSelectedCareer(designation);
     setShowDetails(true);
+
     setTimeout(() => {
       detailsRef.current?.scrollIntoView({ behavior: "smooth" });
     }, 300);
@@ -22,9 +25,9 @@ export default function Home() {
 
         <div className={showDetails ? "mt-10" : "mt-4"}></div>
 
-        {showDetails && (
+        {showDetails && selectedCareer && (
           <div ref={detailsRef} className="mt-6">
-            <CareerDetails />
+            <CareerDetails designation={selectedCareer} />
           </div>
         )}
       </div>
