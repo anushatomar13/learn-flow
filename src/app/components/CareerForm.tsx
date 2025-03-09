@@ -2,10 +2,12 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
-export default function CareerForm({ onExploreClick }: { onExploreClick: (designation: string) => void }) {
+
+export default function CareerForm({ onExploreClick }: { onExploreClick: (designation: string, location: string) => void }) {
   const [designation, setDesignation] = useState("");
   const [timePeriod, setTimePeriod] = useState("");
   const [location, setLocation] = useState("");
+  
 
   return (
     <div className="flex flex-col items-center justify-start px-4 mt-90">
@@ -50,11 +52,11 @@ export default function CareerForm({ onExploreClick }: { onExploreClick: (design
         </div>
 
         <Button
-          onClick={() => onExploreClick(designation)}
-          className="w-32 h-[2.7rem] md:ml-4 transform hover:scale-105 transition duration-200 border border-blue-500 hover:backdrop-blur-md"
-        >
-          Explore
-        </Button>
+  onClick={() => onExploreClick(designation, location)}
+>
+  Explore
+</Button>
+
       </div>
     </div>
   );

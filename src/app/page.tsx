@@ -9,14 +9,18 @@ export default function Home() {
   const detailsRef = useRef<HTMLDivElement>(null);
   const [selectedCareer, setSelectedCareer] = useState<string | null>(null);
 
-  const handleExploreClick = (designation: string) => {
-    setSelectedCareer(designation);
-    setShowDetails(true);
+  const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
 
-    setTimeout(() => {
-      detailsRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, 300);
-  };
+const handleExploreClick = (designation: string, location: string) => {
+  setSelectedCareer(designation);
+  setSelectedLocation(location);
+  setShowDetails(true);
+
+  setTimeout(() => {
+    detailsRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, 300);
+};
+
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -25,11 +29,12 @@ export default function Home() {
 
         <div className={showDetails ? "mt-10" : "mt-4"}></div>
 
-        {showDetails && selectedCareer && (
-          <div ref={detailsRef} className="mt-6">
-            <CareerDetails designation={selectedCareer} />
-          </div>
-        )}
+        {showDetails && selectedCareer && selectedLocation && (
+  <div ref={detailsRef} className="mt-6">
+    <CareerDetails designation={selectedCareer} location={selectedLocation} />
+  </div>
+)}
+
       </div>
 
       <Footer />
