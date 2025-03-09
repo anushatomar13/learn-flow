@@ -1,86 +1,50 @@
-'use client';
-
-import { useState } from 'react';
-import { Input } from "@/components/ui/input";
+"use client";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import mermaid from "mermaid";
-import { useEffect } from "react";
-import MermaidChart from './MermaidChart';
 
-export default function CareerRoadmap() {
-  const [career, setCareer] = useState('');
-  const [description, setDescription] = useState('');
-  const [roadmap, setRoadmap] = useState('');
-  const [mermaidCode, setMermaidCode] = useState('');
-  const [loading, setLoading] = useState(false);
-  
-
-  useEffect(() => {
-    if (mermaidCode) {
-      mermaid.contentLoaded();
-    }
-  }, [mermaidCode]);
-
-  const fetchCareerInfo = async () => {
-    if (!career) return;
-    setLoading(true);
-
-    try {
-      // Fetch career description
-      const descRes = await fetch("/api/career-description", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ career })
-      });
-      const descData = await descRes.json();
-      setDescription(descData.description || "No description available.");
-      
-      // Fetch roadmap
-      const roadmapRes = await fetch("/api/career-roadmap", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ career })
-      });
-      const roadmapData = await roadmapRes.json();
-      setRoadmap(roadmapData.roadmap || "No roadmap available.");
-      setMermaidCode(roadmapData.mermaid || "");
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-    setLoading(false);
-  };
-
+export default function CareerForm({ onExplore }: { onExplore: () => void }) {
   return (
-    <div className="max-w-2xl mx-auto p-6 space-y-4">
-      <h1 className="text-xl font-bold">Career Roadmap Generator</h1>
-      <Input 
-        placeholder="Enter career (e.g., Software Engineer)" 
-        value={career} 
-        onChange={(e) => setCareer(e.target.value)}
-      />
-      <Button onClick={fetchCareerInfo} disabled={loading}>
-        {loading ? "Loading..." : "Get Career Roadmap"}
-      </Button>
-      
-      {description && (
-        <Card>
-          <CardContent className="p-4">
-            <h2 className="text-lg font-semibold">Career Description</h2>
-            <p>{description}</p>
-          </CardContent>
-        </Card>
-      )}
+    <div className="flex flex-col items-center justify-start px-4 mt-90">
+      <h1 className="text-6xl md:text-4xl text-center font-semibold">
+        What do you want to become?
+      </h1>
 
-      {roadmap && (
-        <Card>
-          <CardContent className="p-4">
-            <h2 className="text-lg font-semibold">Roadmap</h2>
-            <pre className="whitespace-pre-wrap">{roadmap}</pre>
-            <MermaidChart code={mermaidCode} />
-          </CardContent>
-        </Card>
-      )}
+      <div className="flex flex-wrap md:flex-nowrap gap-4 md:gap-6 mt-10 items-end justify-center">
+        <div className="flex flex-col md:flex-row gap-4">
+          <div className="flex flex-col">
+            <p className="text-lg md:text-xl font-medium mb-1">Designation</p>
+            <input
+              type="text"
+              placeholder="Enter here"
+              className="w-48 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+
+          <div className="flex flex-col">
+            <p className="text-lg md:text-xl font-medium mb-1">Time Period</p>
+            <input
+              type="text"
+              placeholder="Enter here"
+              className="w-48 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+        </div>
+
+        <div className="flex flex-col">
+          <p className="text-lg md:text-xl font-medium mb-1">Location</p>
+          <input
+            type="text"
+            placeholder="Enter here"
+            className="w-48 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
+
+        <Button
+          onClick={onExplore}
+          className="w-32 h-[2.7rem] md:ml-4 transform hover:scale-105 transition duration-200 border border-blue-500 hover:backdrop-blur-md"
+        >
+          Explore
+        </Button>
+      </div>
     </div>
   );
 }
