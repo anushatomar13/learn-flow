@@ -1,56 +1,75 @@
-'use client'
-import Link from "next/link"
+"use client";
+import { useState } from "react";
 import { HoverEffect } from "@/components/ui/card-hover-effect";
+import { ThumbsUp, ThumbsDown } from "lucide-react";
 
+function CareerDetails() {
+  const [feedback, setFeedback] = useState<string | null>(null);
 
-function Details() {
+  const careerDetails = [
+    {
+      title: "Understanding Music Theory",
+      description: "Dive deep into the fundamentals of music theory and enhance your musical skills.",
+      slug: "understanding-music-theory",
+    },
+    {
+      title: "The Art of Songwriting",
+      description: "Learn the craft of songwriting from experienced musicians and songwriters.",
+      slug: "the-art-of-songwriting",
+    },
+    {
+      title: "Mastering Your Instrument",
+      description: "Advanced techniques to master your musical instrument of choice.",
+      slug: "mastering-your-instrument",
+    },
+  ];
 
-    const careerDetails = [
-        {
-            title: 'Understanding Music Theory',
-            description:
-                'Dive deep into the fundamentals of music theory and enhance your musical skills.',
-            slug: 'understanding-music-theory',
-            isFeatured: true,
-        },
-        {
-            title: 'The Art of Songwriting',
-            description:
-                'Learn the craft of songwriting from experienced musicians and songwriters.',
-            slug: 'the-art-of-songwriting',
-            isFeatured: true,
-        },
-        {
-            title: 'Mastering Your Instrument',
-            description:
-                'Advanced techniques to master your musical instrument of choice.',
-            slug: 'mastering-your-instrument',
-            isFeatured: true,
-        }
-    ];
-
-    return (
-        <div className="p-12 bg-black-900">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6">
-                <div className="text-center">
-                    <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-white sm:text-4xl">Enhance Your Musical Journey</p>
-                </div>
-
-                <div className="mt-10">
-
-                    <HoverEffect
-                        items={careerDetails.map(careerDetail => ({
-                            title: careerDetail.title,
-                            description: careerDetail.description,
-                            link: `/${careerDetail.slug}`, 
-                        }))}
-                    />
-                </div>
-
-                
-            </div>
+  return (
+    <div className="p-12 bg-black-900 text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="text-center">
+          <p className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl">
+            Enhance Your Musical Journey
+          </p>
         </div>
-    )
+
+        <div className="mt-10">
+          <HoverEffect
+            items={careerDetails.map((careerDetail) => ({
+              title: careerDetail.title,
+              description: careerDetail.description,
+              link: `/${careerDetail.slug}`,
+            }))}
+          />
+        </div>
+
+        <div className="mt-10 flex flex-col items-center">
+          <p className="text-2xl font-semibold">Liked the results?</p>
+          <div className="flex gap-6 mt-4">
+            <button
+              className={`p-3 rounded-full border ${feedback === "like" ? "bg-green-500 text-white" : "border-gray-400 text-gray-400"} transition duration-300 hover:bg-green-500 hover:text-white`}
+              onClick={() => setFeedback("like")}
+            >
+              <ThumbsUp size={24} />
+            </button>
+
+            <button
+              className={`p-3 rounded-full border ${feedback === "dislike" ? "bg-red-500 text-white" : "border-gray-400 text-gray-400"} transition duration-300 hover:bg-red-500 hover:text-white`}
+              onClick={() => setFeedback("dislike")}
+            >
+              <ThumbsDown size={24} />
+            </button>
+          </div>
+
+          {feedback && (
+            <p className="mt-4 text-sm text-gray-300">
+              {feedback === "like" ? "Thanks for your feedback! 😊" : "We'll improve based on your feedback! 🙏"}
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default Details
+export default CareerDetails;

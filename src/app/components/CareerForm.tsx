@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 
-export default function CareerForm({ onExplore }: { onExplore: () => void }) {
+export default function CareerForm({ onExploreClick }: { onExploreClick: () => void }) {
   return (
     <div className="flex flex-col items-center justify-start px-4 mt-90">
       <h1 className="text-6xl md:text-4xl text-center font-semibold">
@@ -39,7 +39,7 @@ export default function CareerForm({ onExplore }: { onExplore: () => void }) {
         </div>
 
         <Button
-          onClick={onExplore}
+          onClick={onExploreClick}
           className="w-32 h-[2.7rem] md:ml-4 transform hover:scale-105 transition duration-200 border border-blue-500 hover:backdrop-blur-md"
         >
           Explore
